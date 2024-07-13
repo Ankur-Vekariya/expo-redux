@@ -18,8 +18,10 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { addProduct } from "@/redux/actions/product";
 
-export default function TabTwoScreen() {
+function TabTwoScreen(props) {
   const [productList, setProductList] = useState([]);
   const getProducts = () => {
     fetch("https://dummyjson.com/products")
@@ -239,7 +241,11 @@ export default function TabTwoScreen() {
                 justifyContent: "flex-end",
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  props.add(item.title);
+                }}
+              >
                 <AntDesign name="pluscircle" size={30} color="black" />
               </TouchableOpacity>
               {/* <TouchableOpacity>
@@ -269,6 +275,21 @@ export default function TabTwoScreen() {
     // </ParallaxScrollView>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    product: state.product.product,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    add: (name) => {
+      dispatch(addProduct(name));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabTwoScreen);
 
 const styles = StyleSheet.create({
   container: {
