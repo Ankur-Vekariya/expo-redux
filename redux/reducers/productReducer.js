@@ -1,20 +1,23 @@
-import { ADD_PRODUCT } from '../actions/types';
+import { ADD_PRODUCT, REMOVE_PRODUCT } from "../actions/types";
 const initialState = {
-  productName: '',
-  places: []
+  productName: "",
+  products: [],
 };
 const productReducer = (state = initialState, action) => {
-  switch(action.type) {
+  console.log("action payload", action.payload);
+  switch (action.type) {
     case ADD_PRODUCT:
       return {
         ...state,
-        places: state.places.concat({
-          key: Math.random(),
-          value: action.payload
-        })
+        products: state.products.concat(action.payload),
+      };
+    case REMOVE_PRODUCT:
+      return {
+        ...state,
+        products: state.products.filter((item) => item.id !== action.payload),
       };
     default:
       return state;
   }
-}
+};
 export default productReducer;

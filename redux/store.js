@@ -1,10 +1,14 @@
 // store.js
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import productReducer from "./reducers/productReducer";
+import logger from "redux-logger";
+
+const middlewares = [logger];
+
 const rootReducer = combineReducers({
-  product: productReducer,
+  cart: productReducer,
 });
 const configureStore = () => {
-  return createStore(rootReducer);
+  return createStore(rootReducer, applyMiddleware(...middlewares));
 };
 export default configureStore;
